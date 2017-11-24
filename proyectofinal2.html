@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <title></title>
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/css/bootstrap.min.css" integrity="sha384-rwoIResjU2yc3z8GV/NPeZWAv56rSmLldC3R/AZzGRnGxQQKnKkoFVhFQhNUwEyJ" crossorigin="anonymous">
+        <script src="https://code.jquery.com/jquery-3.1.1.slim.min.js" integrity="sha384-A7FZj7v+d/sdmMqp/nOQwliLvUsJfDHW+k9Omg/a/EheAdgtzNs3hpfag6Ed950n" crossorigin="anonymous"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/tether/1.4.0/js/tether.min.js" integrity="sha384-DztdAPBWPRXSA/3eYEEUWrWCy7G5KFbe8fFjk5JAIxUYHKkDx6Qin1DkWx51bBrb" crossorigin="anonymous"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/js/bootstrap.min.js" integrity="sha384-vBWWzlZJ8ea9aCX4pEW3rVHjgjt7zpkNpZk+02D9phzyeVkE+jo0ieGizqPLForn" crossorigin="anonymous"></script>
+    </head>
+    <body>
+        <div class="row">   
+            <div class="container">
+                <div class="row justify-content-md-center">
+                    <div class="col-4 col-md-auto">
+                        <h1><strong>Proyecto Final</strong></h1>
+                    </div>
+                </div>
+                <div class="row justify-content-md-center">
+                    <div class="col-4">
+                        <label>N° Cajeros:</label> <input id="numCajeros">
+                    </div>
+                    <div class="col-4">
+                        <label>N° Minutos:</label> <input id="numMinutos">
+                    </div>
+                    <div class="col-4">
+                        <button type="button" id="btnSimular">Simular</button>
+                    </div>
+                </div>
+                <br><br>
+                <div class="row justify-content-md-center">
+                    <div class="col-12 col-md-auto">
+                        <table class="table table-inverse">
+                            <thead>
+                                <tr id="cabecera"></tr>
+                            </thead>
+                            <tbody id="tabla1"></tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </body>
+    <script type="text/javascript">
+        $("#btnSimular").click(function() {
+            numMinutos = parseInt($("#numMinutos").val());
+            numCajeros = parseInt($("#numCajeros").val());
+            datosMinutos = [];
+            datosPosicion = [];
+            $("#tabla1").empty();
+            agregarCajeros(numCajeros);
+            for (i = 1; i <= numMinutos; i++) {
+                random1 = Math.random().toFixed(2);
+                random2 = Math.random().toFixed(2);
+                random3 = Math.random().toFixed(2);
+                tiempoLlegada = trasformadaUiforme(random1);
+                datosMinutos.push(tiempoLlegada + " " + i);
+                $("#tabla1").append("<tr id=\"tr" + i + "\"><td>" + i + "</td><td>" + random1 + "</td><td>" + tiempoLlegada + "</td><td>" + random2 + "</td><td></td></tr>");
+            }
+            datosMinutos = datosMinutos.sort();
+            for (j = 0; j < datosMinutos.length; j++) {
+                texto = datosMinutos[j];
+                texto = texto.split(" ");
+                console.log(texto);
+                indice = texto[1];
+                $("#tr" + indice).append("<td>Cliente " + (j + 1) + "</td>");
+            }
+            console.log(datosMinutos);
+            console.log(datosMinutos.sort());
+        });
+        
+        function trasformadaUiforme(aleatorio) {
+            a = 2; //minutos minimos de llegada
+            b = 8; //minutos maximo de llegada
+            return Math.round(a + (b - a) * aleatorio);
+        }
+
+        function agregarCajeros(cajeros) {
+            $("#cabecera").empty();
+            $("#cabecera").append("<th>Minutos</th>");
+            for (i = 1; i <= cajeros; i++) {
+                $("#cabecera").append("<th id=\"cajero" + i + "\">Cajero " + i + "</th>");
+            }
+        }
+
+    </script>
+</html>
